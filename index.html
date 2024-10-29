@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        text-align: center;
+      }
+      .event {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .event h2 {
+        margin: 0;
+        font-size: 1.5em;
+      }
+      .event img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Upcoming Events</h1>
+      <div id="events"></div>
+    </div>
+
+    <script>
+      async function fetchEvents() {
+        try {
+          const response = await fetch("api.php");
+          const events = await response.json();
+
+          const eventContainer = document.getElementById("events");
+          eventContainer.innerHTML = "";
+
+          if (events.message) {
+            eventContainer.innerHTML = `<p>${events.message}</p>`;
+          } else {
+            events.forEach((event) => {
+              const eventDiv = document.createElement("div");
+              eventDiv.classList.add("event");
+              eventDiv.innerHTML = `
+                    <img src="${event.image_url}" alt="${event.event_name}" width="200px">
+                    <h2>${event.event_name}</h2>
+                        <p>Location: ${event.location}</p>
+                        <p>Date: ${event.date}</p>
+                    `;
+              eventContainer.appendChild(eventDiv);
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching events:", error);
+        }
+      }
+
+      // Fetch events when page loads
+      document.addEventListener("DOMContentLoaded", fetchEvents);
+    </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .event {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .event h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Upcoming Events</h1>
+    <div id="events"></div>
+</div>
+
+<script>
+    async function fetchEvents() {
+        try {
+            let response = await fetch('http://localhost/api_integration/api.php');
+            let events = await response.json();
+
+            let eventContainer = document.getElementById('events');
+            eventContainer.innerHTML = '';
+
+            if (events.message) {
+                eventContainer.innerHTML = `<p>${events.message}</p>`;
+            } else {
+                events.forEach(event => {
+                    let eventDiv = document.createElement('div');
+                    eventDiv.classList.add('event');
+                    eventDiv.innerHTML = `
+                        <h2>${event.event_name}</h2>
+                        <p>Location: ${event.location}</p>
+                        <p>Date: ${event.date}</p>
+                    `;
+                    eventContainer.appendChild(eventDiv);
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        }
+    }
+
+    // Fetch events when page loads
+    document.addEventListener('DOMContentLoaded', fetchEvents);
+</script>
+
+</body>
+</html> -->
