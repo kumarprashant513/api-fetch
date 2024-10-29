@@ -10,8 +10,10 @@ if ($result->num_rows > 0) {
     $events = [];
     while($row = $result->fetch_assoc()) {
         // Append the full URL to the image path
-        $row['image_url'] = 'images/' . $row['image_url'];
+        // $row['image_url'] = 'images/' . $row['image_url'];
+        
         $events[] = $row;
+        $row['image_url'] = '' . $row['image_url'];
     }
     echo json_encode($events);
 } else {
